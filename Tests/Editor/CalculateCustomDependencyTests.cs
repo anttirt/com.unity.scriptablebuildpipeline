@@ -120,7 +120,7 @@ namespace UnityEditor.Build.Pipeline.Tests
                     Processor = (guid, task) =>
                     {
                         task.GetObjectIdentifiersAndTypesForSerializedFile(assetPath, out var objectIdentifiers, out var types);
-                        var ex = Assert.Throws<System.ArgumentException>(() => task.CreateAssetEntryForObjectIdentifiers(objectIdentifiers, assetPath, "CustomAssetBundle", address, types[0]));
+                        var ex = Assert.Throws<System.ArgumentException>(() => task.CreateAssetEntryForObjectIdentifiers(objectIdentifiers, assetPath, "CustomAssetBundle", address, HashingMethods.Calculate(address).ToGUID(), types[0]));
                         var expected = string.Format("Custom Asset '{0}' already exists. Building duplicate asset entries is not supported.", address);
                         Assert.That(ex.Message, Is.EqualTo(expected));
                     }
@@ -176,7 +176,7 @@ namespace UnityEditor.Build.Pipeline.Tests
                     Processor = (guid, task) =>
                     {
                         task.GetObjectIdentifiersAndTypesForSerializedFile(assetPath, out var includedObjects, out var types);
-                        task.CreateAssetEntryForObjectIdentifiers(includedObjects, assetPath, bundleName, address, types[0]);
+                        task.CreateAssetEntryForObjectIdentifiers(includedObjects, assetPath, bundleName, address, HashingMethods.Calculate(address).ToGUID(), types[0]);
                     }
                 }
             };

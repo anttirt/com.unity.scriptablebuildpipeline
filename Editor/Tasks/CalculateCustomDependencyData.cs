@@ -179,12 +179,13 @@ namespace UnityEditor.Build.Pipeline.Tasks
         /// <param name="bundleName">Asset Bundle name where to add this custom asset</param>
         /// <param name="address">Load address to used to load this asset from the Asset Bundle</param>
         /// <param name="mainAssetType">Type of the main object for this custom asset</param>
-        public void CreateAssetEntryForObjectIdentifiers(ObjectIdentifier[] includedObjects, string path, string bundleName, string address, Type mainAssetType)
+        public void CreateAssetEntryForObjectIdentifiers(ObjectIdentifier[] includedObjects, string path, string bundleName, string address, GUID asset, Type mainAssetType)
         {
             AssetLoadInfo assetInfo = m_AssetInfo[path];
             BuildUsageTagSet buildUsage = m_BuildUsage[path];
 
-            assetInfo.asset = HashingMethods.Calculate(address).ToGUID();
+            //assetInfo.asset = HashingMethods.Calculate(address).ToGUID();
+            assetInfo.asset = asset;
             assetInfo.address = address;
             if (m_DependencyData.AssetInfo.ContainsKey(assetInfo.asset))
                 throw new ArgumentException(string.Format("Custom Asset '{0}' already exists. Building duplicate asset entries is not supported.", address));
