@@ -33,7 +33,7 @@ namespace UnityEditor.Build.Pipeline.Tasks
             Dictionary<string, IWriteOperation> fileToOperation = m_WriteData.WriteOperations.ToDictionary(x => x.Command.internalName, x => x);
             foreach (var pair in m_ExtendedAssetData.ExtendedData)
             {
-                GUID asset = pair.Key;
+                UnityEngine.GUID asset = pair.Key;
                 string mainFile = m_WriteData.AssetToFiles[asset][0];
                 var abOp = fileToOperation[mainFile] as AssetBundleWriteOperation;
 

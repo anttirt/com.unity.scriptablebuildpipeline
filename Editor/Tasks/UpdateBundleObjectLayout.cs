@@ -43,7 +43,7 @@ namespace UnityEditor.Build.Pipeline.Tasks
             if (m_Layout == null || m_Layout.ExplicitObjectLocation.IsNullOrEmpty())
                 return ReturnCode.SuccessNotRun;
 
-            var ObjectToAssetReferences = new Dictionary<ObjectIdentifier, List<GUID>>();
+            var ObjectToAssetReferences = new Dictionary<ObjectIdentifier, List<UnityEngine.GUID>>();
             var ObjectToFiles = new Dictionary<ObjectIdentifier, List<string>>();
 
             using (m_Log.ScopedStep(LogLevel.Info, "PopulateReferencesMaps", true))
@@ -52,7 +52,7 @@ namespace UnityEditor.Build.Pipeline.Tasks
                 {
                     using (m_Log.ScopedStep(LogLevel.Info, "Populate Assets Map", $"Count={m_DependencyData.AssetInfo.Count}"))
                     {
-                        foreach (KeyValuePair<GUID, AssetLoadInfo> dependencyPair in m_DependencyData.AssetInfo)
+                        foreach (KeyValuePair<UnityEngine.GUID, AssetLoadInfo> dependencyPair in m_DependencyData.AssetInfo)
                         {
                             PopulateReferencesMap(dependencyPair.Key, dependencyPair.Value.includedObjects, ObjectToAssetReferences);
                             PopulateReferencesMap(dependencyPair.Key, dependencyPair.Value.referencedObjects, ObjectToAssetReferences);
@@ -60,7 +60,7 @@ namespace UnityEditor.Build.Pipeline.Tasks
                     }
                     using (m_Log.ScopedStep(LogLevel.Info, "Populate Scenes Map", $"Count={m_DependencyData.SceneInfo.Count}"))
                     {
-                        foreach (KeyValuePair<GUID, SceneDependencyInfo> dependencyPair in m_DependencyData.SceneInfo)
+                        foreach (KeyValuePair<UnityEngine.GUID, SceneDependencyInfo> dependencyPair in m_DependencyData.SceneInfo)
                             PopulateReferencesMap(dependencyPair.Key, dependencyPair.Value.referencedObjects, ObjectToAssetReferences);
                     }
                 });
@@ -107,7 +107,7 @@ namespace UnityEditor.Build.Pipeline.Tasks
             }
         }
 
-        internal static void UpdateAssetToFilesMap(string file, List<GUID> assetsToUpdate, Dictionary<GUID, List<string>> AssetToFiles)
+        internal static void UpdateAssetToFilesMap(string file, List<UnityEngine.GUID> assetsToUpdate, Dictionary<UnityEngine.GUID, List<string>> AssetToFiles)
         {
             foreach (var asset in assetsToUpdate)
             {
@@ -123,14 +123,14 @@ namespace UnityEditor.Build.Pipeline.Tasks
                 FileToObjects[file].Remove(objectID);
         }
 
-        internal static void UpdateFileToBundleMap(string bundleName, string file, Dictionary<string, string> FileToBundle, Dictionary<string, List<GUID>> BundleLayout)
+        internal static void UpdateFileToBundleMap(string bundleName, string file, Dictionary<string, string> FileToBundle, Dictionary<string, List<UnityEngine.GUID>> BundleLayout)
         {
             if (!FileToBundle.ContainsKey(file))
             {
                 FileToBundle.Add(file, bundleName);
                 // NOTE: We want the output result to know about the new bundle, but since we are only
                 // assigning individual objects to this bundle and not full assets, the asset list will be empty
-                BundleLayout.Add(bundleName, new List<GUID>());
+                BundleLayout.Add(bundleName, new List<UnityEngine.GUID>());
             }
         }
 

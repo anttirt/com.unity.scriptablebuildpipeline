@@ -32,7 +32,7 @@ namespace UnityEditor.Build.Pipeline.Tasks
         IBuildCache m_Cache;
 #pragma warning restore 649
 
-        CachedInfo GetCachedInfo(GUID scene, IEnumerable<ObjectIdentifier> references, SceneDependencyInfo sceneInfo, BuildUsageTagSet usageTags)
+        CachedInfo GetCachedInfo(UnityEngine.GUID scene, IEnumerable<ObjectIdentifier> references, SceneDependencyInfo sceneInfo, BuildUsageTagSet usageTags)
         {
             var info = new CachedInfo();
             info.Asset = m_Cache.GetCacheEntry(scene, Version);
@@ -62,7 +62,7 @@ namespace UnityEditor.Build.Pipeline.Tasks
 
             for (int i = 0; i < m_Content.Scenes.Count; i++)
             {
-                GUID scene = m_Content.Scenes[i];
+                UnityEngine.GUID scene = m_Content.Scenes[i];
                 string scenePath = AssetDatabase.GUIDToAssetPath(scene.ToString());
 
                 SceneDependencyInfo sceneInfo;
@@ -85,7 +85,7 @@ namespace UnityEditor.Build.Pipeline.Tasks
                     string[] dependencies = AssetDatabase.GetDependencies(scenePath);
                     foreach (var assetPath in dependencies)
                     {
-                        var assetGuid = new GUID(AssetDatabase.AssetPathToGUID(assetPath));
+                        var assetGuid = new UnityEngine.GUID(AssetDatabase.AssetPathToGUID(assetPath));
                         if (ValidationMethods.ValidAsset(assetGuid) != ValidationMethods.Status.Asset)
                             continue;
 
@@ -100,7 +100,6 @@ namespace UnityEditor.Build.Pipeline.Tasks
                     usageTags = new BuildUsageTagSet();
 
                     sceneInfo.SetScene(scenePath);
-                    sceneInfo.SetProcessedScene(scenePath);
                     sceneInfo.SetReferencedObjects(references.ToArray());
 
                     if (uncachedInfo != null)
@@ -116,7 +115,7 @@ namespace UnityEditor.Build.Pipeline.Tasks
             return ReturnCode.Success;
         }
 
-        void SetOutputInformation(GUID asset, SceneDependencyInfo sceneInfo, BuildUsageTagSet usageTags)
+        void SetOutputInformation(UnityEngine.GUID asset, SceneDependencyInfo sceneInfo, BuildUsageTagSet usageTags)
         {
             // Add generated scene information to BuildDependencyData
             m_DependencyData.SceneInfo.Add(asset, sceneInfo);

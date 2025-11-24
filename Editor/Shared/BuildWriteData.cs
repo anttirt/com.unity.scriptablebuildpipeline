@@ -13,7 +13,7 @@ namespace UnityEditor.Build.Pipeline
     public class BuildWriteData : IWriteData
     {
         /// <inheritdoc />
-        public Dictionary<GUID, List<string>> AssetToFiles { get; private set; }
+        public Dictionary<UnityEngine.GUID, List<string>> AssetToFiles { get; private set; }
         /// <inheritdoc />
         public Dictionary<string, List<ObjectIdentifier>> FileToObjects { get; private set; }
         /// <inheritdoc />
@@ -24,7 +24,7 @@ namespace UnityEditor.Build.Pipeline
         /// </summary>
         public BuildWriteData()
         {
-            AssetToFiles = new Dictionary<GUID, List<string>>();
+            AssetToFiles = new Dictionary<UnityEngine.GUID, List<string>>();
             FileToObjects = new Dictionary<string, List<ObjectIdentifier>>();
             WriteOperations = new List<IWriteOperation>();
         }
@@ -38,7 +38,7 @@ namespace UnityEditor.Build.Pipeline
     public class BundleWriteData : IBundleWriteData
     {
         /// <inheritdoc />
-        public Dictionary<GUID, List<string>> AssetToFiles { get; private set; }
+        public Dictionary<UnityEngine.GUID, List<string>> AssetToFiles { get; private set; }
         /// <inheritdoc />
         public Dictionary<string, List<ObjectIdentifier>> FileToObjects { get; private set; }
         /// <inheritdoc />
@@ -55,7 +55,7 @@ namespace UnityEditor.Build.Pipeline
         /// </summary>
         public BundleWriteData()
         {
-            AssetToFiles = new Dictionary<GUID, List<string>>();
+            AssetToFiles = new Dictionary<UnityEngine.GUID, List<string>>();
             FileToObjects = new Dictionary<string, List<ObjectIdentifier>>();
             FileToBundle = new Dictionary<string, string>();
             FileToUsageSet = new Dictionary<string, BuildUsageTagSet>();
