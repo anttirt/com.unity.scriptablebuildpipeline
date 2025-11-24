@@ -12,14 +12,14 @@ namespace UnityEditor.Build.Pipeline
     public class BuildExtendedAssetData : IBuildExtendedAssetData
     {
         /// <inheritdoc />
-        public Dictionary<GUID, ExtendedAssetData> ExtendedData { get; private set; }
+        public Dictionary<UnityEngine.GUID, ExtendedAssetData> ExtendedData { get; private set; }
 
         /// <summary>
         /// Default constructor, initializes properties to defaults
         /// </summary>
         public BuildExtendedAssetData()
         {
-            ExtendedData = new Dictionary<GUID, ExtendedAssetData>();
+            ExtendedData = new Dictionary<UnityEngine.GUID, ExtendedAssetData>();
         }
     }
 }

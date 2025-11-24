@@ -7,7 +7,7 @@ namespace UnityEditor.Build.Pipeline.Utilities
 {
     internal static class ValidationMethods
     {
-        internal static System.Func<GUID, Status> ValidAssetFake;
+        internal static System.Func<UnityEngine.GUID, Status> ValidAssetFake;
 
         public enum Status
         {
@@ -16,7 +16,7 @@ namespace UnityEditor.Build.Pipeline.Utilities
             Scene
         }
 
-        public static Status ValidAsset(GUID asset)
+        public static Status ValidAsset(UnityEngine.GUID asset)
         {
             if (ValidAssetFake != null)
                 return ValidAssetFake(asset);
@@ -31,12 +31,12 @@ namespace UnityEditor.Build.Pipeline.Utilities
             return Status.Asset;
         }
 
-        public static bool ValidSceneBundle(List<GUID> assets)
+        public static bool ValidSceneBundle(List<UnityEngine.GUID> assets)
         {
             return assets.All(x => ValidAsset(x) == Status.Scene);
         }
 
-        public static bool ValidAssetBundle(List<GUID> assets)
+        public static bool ValidAssetBundle(List<UnityEngine.GUID> assets)
         {
             return assets.All(x => ValidAsset(x) == Status.Asset);
         }

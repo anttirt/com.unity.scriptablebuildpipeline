@@ -16,7 +16,7 @@ namespace UnityEditor.Build.Pipeline.Interfaces
         /// <param name="asset">GUID identifier for an asset from the Asset Database</param>
         /// <param name="version">Version number of the system asking for an entry to distinguish it from previous incompatible entries. (Optional)</param>
         /// <returns>CacheEntry representing current asset.</returns>
-        CacheEntry GetCacheEntry(GUID asset, int version = 1);
+        CacheEntry GetCacheEntry(UnityEngine.GUID asset, int version = 1);
 
         /// <summary>
         /// Gets a CacheEntry for a file identified by its relative path.

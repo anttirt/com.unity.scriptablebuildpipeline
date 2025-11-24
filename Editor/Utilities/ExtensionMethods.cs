@@ -79,7 +79,7 @@ namespace UnityEditor.Build.Pipeline.Utilities
         }
 
 #if NONRECURSIVE_DEPENDENCY_DATA
-        public static ObjectIdentifier[] FilterReferencedObjectIDs(GUID asset, ObjectIdentifier[] references, BuildTarget target, TypeDB typeDB, HashSet<GUID> dependencies)
+        public static ObjectIdentifier[] FilterReferencedObjectIDs(UnityEngine.GUID asset, ObjectIdentifier[] references, BuildTarget target, TypeDB typeDB, HashSet<UnityEngine.GUID> dependencies)
         {
             // Expectation: references is populated with DependencyType.ValidReferences only for the given asset
             var collectedImmediateReferences = new HashSet<ObjectIdentifier>();

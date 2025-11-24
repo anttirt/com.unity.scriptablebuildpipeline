@@ -12,7 +12,7 @@ namespace UnityEditor.Build.Pipeline.Interfaces
         /// Map of asset to file dependencies.
         /// First dependency in the list is the main file for an asset.
         /// </summary>
-        Dictionary<GUID, List<string>> AssetToFiles { get; }
+        Dictionary<UnityEngine.GUID, List<string>> AssetToFiles { get; }
 
         /// <summary>
         /// Map of file to list of objects in that file

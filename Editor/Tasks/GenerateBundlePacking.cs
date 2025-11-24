@@ -30,13 +30,11 @@ namespace UnityEditor.Build.Pipeline.Tasks
         [InjectContext(ContextUsage.In)]
         IDeterministicIdentifiers m_PackingMethod;
 
-#if UNITY_2019_3_OR_NEWER
         [InjectContext(ContextUsage.In, true)]
         ICustomAssets m_CustomAssets;
-#endif
 #pragma warning restore 649
 
-        static bool ValidAssetBundle(List<GUID> assets, HashSet<GUID> customAssets)
+        static bool ValidAssetBundle(List<UnityEngine.GUID> assets, HashSet<UnityEngine.GUID> customAssets)
         {
             // Custom Valid Asset Bundle function that tests if every asset is known by the asset database, is an asset (not a scene), or is a user driven custom asset
             return assets.All(x => ValidationMethods.ValidAsset(x) == ValidationMethods.Status.Asset || customAssets.Contains(x));
@@ -45,12 +43,10 @@ namespace UnityEditor.Build.Pipeline.Tasks
         /// <inheritdoc />
         public ReturnCode Run()
         {
-            Dictionary<GUID, List<GUID>> assetToReferences = new Dictionary<GUID, List<GUID>>();
-            HashSet<GUID> customAssets = new HashSet<GUID>();
-#if UNITY_2019_3_OR_NEWER
+            Dictionary<UnityEngine.GUID, List<UnityEngine.GUID>> assetToReferences = new Dictionary<UnityEngine.GUID, List<UnityEngine.GUID>>();
+            HashSet<UnityEngine.GUID> customAssets = new HashSet<UnityEngine.GUID>();
             if (m_CustomAssets != null)
                 customAssets.UnionWith(m_CustomAssets.Assets);
-#endif
 
             // Pack each asset bundle
             foreach (var bundle in m_BuildContent.BundleLayout)
@@ -67,7 +63,7 @@ namespace UnityEditor.Build.Pipeline.Tasks
                 foreach (var asset in bundle.Value)
                 {
                     List<string> files = m_WriteData.AssetToFiles[asset];
-                    List<GUID> references = assetToReferences[asset];
+                    List<UnityEngine.GUID> references = assetToReferences[asset];
                     foreach (var reference in references)
                     {
                         List<string> referenceFiles = m_WriteData.AssetToFiles[reference];
@@ -80,12 +76,12 @@ namespace UnityEditor.Build.Pipeline.Tasks
             return ReturnCode.Success;
         }
 
-        void PackAssetBundle(string bundleName, List<GUID> includedAssets, Dictionary<GUID, List<GUID>> assetToReferences)
+        void PackAssetBundle(string bundleName, List<UnityEngine.GUID> includedAssets, Dictionary<UnityEngine.GUID, List<UnityEngine.GUID>> assetToReferences)
         {
             var internalName = string.Format(CommonStrings.AssetBundleNameFormat, m_PackingMethod.GenerateInternalFileName(bundleName));
 
             var allObjects = new HashSet<ObjectIdentifier>();
-            Dictionary<GUID, HashSet<ObjectIdentifier>> assetObjectIdentifierHashSets = new Dictionary<GUID, HashSet<ObjectIdentifier>>();
+            Dictionary<UnityEngine.GUID, HashSet<ObjectIdentifier>> assetObjectIdentifierHashSets = new Dictionary<UnityEngine.GUID, HashSet<ObjectIdentifier>>();
             foreach (var asset in includedAssets)
             {
                 AssetLoadInfo assetInfo = m_DependencyData.AssetInfo[asset];
@@ -103,16 +99,16 @@ namespace UnityEditor.Build.Pipeline.Tasks
             m_WriteData.FileToObjects.Add(internalName, allObjects.ToList());
         }
 
-        void PackSceneBundle(string bundleName, List<GUID> includedScenes, Dictionary<GUID, List<GUID>> assetToReferences)
+        void PackSceneBundle(string bundleName, List<UnityEngine.GUID> includedScenes, Dictionary<UnityEngine.GUID, List<UnityEngine.GUID>> assetToReferences)
         {
             if (includedScenes.IsNullOrEmpty())
                 return;
 
             string firstFileName = "";
             HashSet<ObjectIdentifier> previousSceneObjects = new HashSet<ObjectIdentifier>();
-            HashSet<GUID> previousSceneAssets = new HashSet<GUID>();
+            HashSet<UnityEngine.GUID> previousSceneAssets = new HashSet<UnityEngine.GUID>();
             List<string> sceneInternalNames = new List<string>();
-            Dictionary<GUID, HashSet<ObjectIdentifier>> assetObjectIdentifierHashSets = new Dictionary<GUID, HashSet<ObjectIdentifier>>();
+            Dictionary<UnityEngine.GUID, HashSet<ObjectIdentifier>> assetObjectIdentifierHashSets = new Dictionary<UnityEngine.GUID, HashSet<ObjectIdentifier>>();
             foreach (var scene in includedScenes)
             {
                 var scenePath = AssetDatabase.GUIDToAssetPath(scene.ToString());
@@ -140,7 +136,7 @@ namespace UnityEditor.Build.Pipeline.Tasks
             }
         }
 
-        static HashSet<ObjectIdentifier> GetRefObjectIdLookup(AssetLoadInfo referencedAsset, Dictionary<GUID, HashSet<ObjectIdentifier>> assetObjectIdentifierHashSets)
+        static HashSet<ObjectIdentifier> GetRefObjectIdLookup(AssetLoadInfo referencedAsset, Dictionary<UnityEngine.GUID, HashSet<ObjectIdentifier>> assetObjectIdentifierHashSets)
         {
             HashSet<ObjectIdentifier> refObjectIdLookup;
             if ((assetObjectIdentifierHashSets == null) || (!assetObjectIdentifierHashSets.TryGetValue(referencedAsset.asset, out refObjectIdLookup)))
@@ -151,10 +147,10 @@ namespace UnityEditor.Build.Pipeline.Tasks
             return refObjectIdLookup;
         }
 
-        internal static List<GUID> FilterReferencesForAsset(IDependencyData dependencyData, GUID asset, List<ObjectIdentifier> references, HashSet<ObjectIdentifier> previousSceneObjects = null, HashSet<GUID> previousSceneReferences = null, Dictionary<GUID, HashSet<ObjectIdentifier>> assetObjectIdentifierHashSets = null)
+        internal static List<UnityEngine.GUID> FilterReferencesForAsset(IDependencyData dependencyData, UnityEngine.GUID asset, List<ObjectIdentifier> references, HashSet<ObjectIdentifier> previousSceneObjects = null, HashSet<UnityEngine.GUID> previousSceneReferences = null, Dictionary<UnityEngine.GUID, HashSet<ObjectIdentifier>> assetObjectIdentifierHashSets = null)
         {
             var referencedAssets = new HashSet<AssetLoadInfo>();
-            var referencedAssetsGuids = new List<GUID>(referencedAssets.Count);
+            var referencedAssetsGuids = new List<UnityEngine.GUID>(referencedAssets.Count);
             var referencesPruned = new List<ObjectIdentifier>(references.Count);
             // Remove Default Resources and Includes for Assets assigned to Bundles
             foreach (ObjectIdentifier reference in references)
@@ -201,7 +197,7 @@ namespace UnityEditor.Build.Pipeline.Tasks
             // Special path for scenes, they can reference the same assets previously references
             if (!previousSceneReferences.IsNullOrEmpty())
             {
-                foreach (GUID reference in previousSceneReferences)
+                foreach (UnityEngine.GUID reference in previousSceneReferences)
                 {
                     if (!dependencyData.AssetInfo.TryGetValue(reference, out AssetLoadInfo referencedAsset))
                         continue;

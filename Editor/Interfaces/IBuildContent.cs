@@ -5,7 +5,6 @@ using UnityEditor.Build.Pipeline.Tasks;
 
 namespace UnityEditor.Build.Pipeline.Interfaces
 {
-#if UNITY_2019_3_OR_NEWER
     /// <summary>
     /// Custom Content struct mapping a source asset to a processor to generate custom data for that asset.
     /// </summary>
@@ -15,18 +14,18 @@ namespace UnityEditor.Build.Pipeline.Interfaces
         /// <summary>
         /// Input Asset for custom content
         /// </summary>
-        public GUID Asset { get; set; }
+        public UnityEngine.GUID Asset { get; set; }
 
         /// <summary>
         /// Processor function to run to convert the input asset to the custom content
         /// </summary>
-        public Action<GUID, CalculateCustomDependencyData> Processor;
+        public Action<UnityEngine.GUID, CalculateCustomDependencyData> Processor;
 
         /// <summary>
-        /// IEquatable<CustomContent> Equals operator to handle generic collections
+        /// CustomContent Equals operator to handle generic collections
         /// </summary>
         /// <param name="other">Other CustomContent object to compare against.</param>
-        /// <returns></returns>
+        /// <returns>True if the custom content is the same asset and has the same dependencies</returns>
         public bool Equals(CustomContent other)
         {
             return Asset == other.Asset && Processor == other.Processor;
@@ -41,9 +40,8 @@ namespace UnityEditor.Build.Pipeline.Interfaces
         /// <summary>
         /// List of Custom Assets to include.
         /// </summary>
-        List<GUID> Assets { get; }
+        List<UnityEngine.GUID> Assets { get; }
     }
-#endif
 
     /// <summary>
     /// Base interface for feeding Assets to the Scriptable Build Pipeline.
@@ -53,19 +51,17 @@ namespace UnityEditor.Build.Pipeline.Interfaces
         /// <summary>
         /// List of Assets to include.
         /// </summary>
-        List<GUID> Assets { get; }
+        List<UnityEngine.GUID> Assets { get; }
 
         /// <summary>
         /// List of Scenes to include.
         /// </summary>
-        List<GUID> Scenes { get; }
+        List<UnityEngine.GUID> Scenes { get; }
 
-#if UNITY_2019_3_OR_NEWER
         /// <summary>
         /// List of custom content to be included in asset bundles.
         /// </summary>
         List<CustomContent> CustomAssets { get; }
-#endif
     }
 
     /// <summary>
@@ -76,18 +72,16 @@ namespace UnityEditor.Build.Pipeline.Interfaces
         /// <summary>
         /// Specific layout of asset bundles to assets or scenes.
         /// </summary>
-        Dictionary<string, List<GUID>> BundleLayout { get; }
+        Dictionary<string, List<UnityEngine.GUID>> BundleLayout { get; }
 
-#if UNITY_2019_3_OR_NEWER
         /// <summary>
         /// Additional list of raw files to add to an asset bundle
         /// </summary>
         Dictionary<string, List<ResourceFile>> AdditionalFiles { get; }
-#endif
 
         /// <summary>
         /// Custom loading identifiers to use for Assets or Scenes.
         /// </summary>
-        Dictionary<GUID, string> Addresses { get; }
+        Dictionary<UnityEngine.GUID, string> Addresses { get; }
     }
 }

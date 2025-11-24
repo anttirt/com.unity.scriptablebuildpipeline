@@ -32,7 +32,7 @@ namespace UnityEditor.Build.Pipeline.Tasks
             Dictionary<string, WriteCommand> fileToCommand;
             Dictionary<string, HashSet<ObjectIdentifier>> forwardObjectDependencies;
             Dictionary<string, HashSet<string>> forwardFileDependencies;
-            Dictionary<string, HashSet<GUID>> reverseAssetDependencies;
+            Dictionary<string, HashSet<UnityEngine.GUID>> reverseAssetDependencies;
 
             // BuildReferenceMap details what objects exist in other bundles that objects in a source bundle depend upon (forward dependencies)
             // BuildUsageTagSet details the conditional data needed to be written by objects in a source bundle that is in used by objects in other bundles (reverse dependencies)
@@ -41,10 +41,10 @@ namespace UnityEditor.Build.Pipeline.Tasks
                 fileToCommand = m_WriteData.WriteOperations.ToDictionary(x => x.Command.internalName, x => x.Command);
                 forwardObjectDependencies = new Dictionary<string, HashSet<ObjectIdentifier>>();
                 forwardFileDependencies = new Dictionary<string, HashSet<string>>();
-                reverseAssetDependencies = new Dictionary<string, HashSet<GUID>>();
+                reverseAssetDependencies = new Dictionary<string, HashSet<UnityEngine.GUID>>();
                 foreach (var pair in m_WriteData.AssetToFiles)
                 {
-                    GUID asset = pair.Key;
+                    UnityEngine.GUID asset = pair.Key;
                     List<string> files = pair.Value;
 
                     // The includes for an asset live in the first file, references could live in any file
@@ -63,7 +63,7 @@ namespace UnityEditor.Build.Pipeline.Tasks
                     for (int i = 1; i < files.Count; i++)
                     {
                         fileDependencies.Add(files[i]);
-                        reverseAssetDependencies.GetOrAdd(files[i], out HashSet<GUID> reverseDependencies);
+                        reverseAssetDependencies.GetOrAdd(files[i], out HashSet<UnityEngine.GUID> reverseDependencies);
                         reverseDependencies.Add(asset);
                     }
                 }
@@ -106,7 +106,7 @@ namespace UnityEditor.Build.Pipeline.Tasks
                     BuildUsageTagSet fileUsage = m_WriteData.FileToUsageSet[internalName];
                     if (reverseAssetDependencies.TryGetValue(internalName, out var assetDependencies))
                     {
-                        foreach (GUID asset in assetDependencies)
+                        foreach (UnityEngine.GUID asset in assetDependencies)
                         {
                             if (m_DependencyData.AssetUsage.TryGetValue(asset, out var assetUsage))
                                 fileUsage.UnionWith(assetUsage);

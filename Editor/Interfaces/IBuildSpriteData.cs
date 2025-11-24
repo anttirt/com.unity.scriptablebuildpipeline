@@ -29,6 +29,6 @@ namespace UnityEditor.Build.Pipeline.Interfaces
         /// <summary>
         /// Map of sprite asset to importer data.
         /// </summary>
-        Dictionary<GUID, SpriteImporterData> ImporterData { get; }
+        Dictionary<UnityEngine.GUID, SpriteImporterData> ImporterData { get; }
     }
 }

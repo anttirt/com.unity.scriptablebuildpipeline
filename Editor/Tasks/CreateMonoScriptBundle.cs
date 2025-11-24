@@ -13,7 +13,7 @@ namespace UnityEditor.Build.Pipeline.Tasks
     /// </summary>
     public class CreateMonoScriptBundle : IBuildTask
     {
-        static readonly GUID k_DefaultGuid = new GUID(CommonStrings.UnityDefaultResourceGuid);
+        static readonly UnityEngine.GUID k_DefaultGuid = new UnityEngine.GUID(CommonStrings.UnityDefaultResourceGuid);
         /// <inheritdoc />
         public int Version { get { return 1; } }
 

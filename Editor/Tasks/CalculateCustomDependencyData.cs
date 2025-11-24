@@ -1,4 +1,3 @@
-#if UNITY_2019_3_OR_NEWER
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -194,7 +193,7 @@ namespace UnityEditor.Build.Pipeline.Tasks
 
         void SetOutputInformation(string bundleName, AssetLoadInfo assetInfo, BuildUsageTagSet usageTags)
         {
-            List<GUID> assets;
+            List<UnityEngine.GUID> assets;
             m_Content.BundleLayout.GetOrAdd(bundleName, out assets);
             assets.Add(assetInfo.asset);
 
@@ -205,4 +204,3 @@ namespace UnityEditor.Build.Pipeline.Tasks
         }
     }
 }
-#endif

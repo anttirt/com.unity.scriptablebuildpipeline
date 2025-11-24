@@ -1,14 +1,11 @@
 using System;
 using System.Collections.Generic;
-#if UNITY_2019_3_OR_NEWER
 using UnityEditor.Build.Content;
-#endif
 using UnityEditor.Build.Pipeline.Interfaces;
 using UnityEditor.Build.Pipeline.Utilities;
 
 namespace UnityEditor.Build.Pipeline
 {
-#if UNITY_2019_3_OR_NEWER
     /// <summary>
     /// Basic implementation of ICustomAssets. Stores the list of Custom Assets generated during the Scriptable Build Pipeline.
     /// <see cref="ICustomAssets"/>
@@ -17,17 +14,16 @@ namespace UnityEditor.Build.Pipeline
     public class CustomAssets : ICustomAssets
     {
         /// <inheritdoc />
-        public List<GUID> Assets { get; private set; }
+        public List<UnityEngine.GUID> Assets { get; private set; }
 
         /// <summary>
         /// Default constructor, creates an empty CustomAssets.
         /// </summary>
         public CustomAssets()
         {
-            Assets = new List<GUID>();
+            Assets = new List<UnityEngine.GUID>();
         }
     }
-#endif
 
     /// <summary>
     /// Basic implementation of IBuildContent. Stores the list of Assets to feed the Scriptable Build Pipeline.
@@ -37,15 +33,13 @@ namespace UnityEditor.Build.Pipeline
     public class BuildContent : IBuildContent
     {
         /// <inheritdoc />
-        public List<GUID> Assets { get; private set; }
+        public List<UnityEngine.GUID> Assets { get; private set; }
 
         /// <inheritdoc />
-        public List<GUID> Scenes { get; private set; }
+        public List<UnityEngine.GUID> Scenes { get; private set; }
 
-#if UNITY_2019_3_OR_NEWER
         /// <inheritdoc />
         public List<CustomContent> CustomAssets { get; private set; }
-#endif
 
         /// <summary>
         /// Default constructor, creates an empty BuildContent.
@@ -56,16 +50,14 @@ namespace UnityEditor.Build.Pipeline
         /// Default constructor, takes a set of Assets and converts them to the appropriate properties.
         /// </summary>
         /// <param name="assets">The set of Assets identified by GUID to ensure are packaged with the build</param>
-        public BuildContent(IEnumerable<GUID> assets)
+        public BuildContent(IEnumerable<UnityEngine.GUID> assets)
         {
             if (assets == null)
                 throw new ArgumentNullException("assets");
 
-            Assets = new List<GUID>();
-            Scenes = new List<GUID>();
-#if UNITY_2019_3_OR_NEWER
+            Assets = new List<UnityEngine.GUID>();
+            Scenes = new List<UnityEngine.GUID>();
             CustomAssets = new List<CustomContent>();
-#endif
 
             foreach (var asset in assets)
             {
@@ -88,24 +80,22 @@ namespace UnityEditor.Build.Pipeline
     public class BundleBuildContent : IBundleBuildContent
     {
         /// <inheritdoc />
-        public List<GUID> Assets { get; private set; }
+        public List<UnityEngine.GUID> Assets { get; private set; }
 
         /// <inheritdoc />
-        public List<GUID> Scenes { get; private set; }
+        public List<UnityEngine.GUID> Scenes { get; private set; }
 
-#if UNITY_2019_3_OR_NEWER
         /// <inheritdoc />
         public List<CustomContent> CustomAssets { get; private set; }
 
         /// <inheritdoc />
         public Dictionary<string, List<ResourceFile>> AdditionalFiles { get; private set; }
-#endif
 
         /// <inheritdoc />
-        public Dictionary<GUID, string> Addresses { get; private set; }
+        public Dictionary<UnityEngine.GUID, string> Addresses { get; private set; }
 
         /// <inheritdoc />
-        public Dictionary<string, List<GUID>> BundleLayout { get; private set; }
+        public Dictionary<string, List<UnityEngine.GUID>> BundleLayout { get; private set; }
 
         /// <summary>
         /// Default constructor, creates an empty BundleBuildContent.
@@ -121,25 +111,23 @@ namespace UnityEditor.Build.Pipeline
             if (bundleBuilds == null)
                 throw new ArgumentNullException("bundleBuilds");
 
-            Assets = new List<GUID>();
-            Scenes = new List<GUID>();
-            Addresses = new Dictionary<GUID, string>();
-            BundleLayout = new Dictionary<string, List<GUID>>();
-#if UNITY_2019_3_OR_NEWER
+            Assets = new List<UnityEngine.GUID>();
+            Scenes = new List<UnityEngine.GUID>();
+            Addresses = new Dictionary<UnityEngine.GUID, string>();
+            BundleLayout = new Dictionary<string, List<UnityEngine.GUID>>();
             CustomAssets = new List<CustomContent>();
             AdditionalFiles = new Dictionary<string, List<ResourceFile>>();
-#endif
 
             foreach (var bundleBuild in bundleBuilds)
             {
-                List<GUID> guids;
+                List<UnityEngine.GUID> guids;
                 BundleLayout.GetOrAdd(bundleBuild.assetBundleName, out guids);
                 ValidationMethods.Status bundleType = ValidationMethods.Status.Invalid;
 
                 for (int i = 0; i < bundleBuild.assetNames.Length; i++)
                 {
                     string assetPath = bundleBuild.assetNames[i];
-                    GUID asset = new GUID(AssetDatabase.AssetPathToGUID(assetPath));
+                    UnityEngine.GUID asset = new UnityEngine.GUID(AssetDatabase.AssetPathToGUID(assetPath));
 
                     // Ensure the path is valid
                     ValidationMethods.Status status = ValidationMethods.ValidAsset(asset);

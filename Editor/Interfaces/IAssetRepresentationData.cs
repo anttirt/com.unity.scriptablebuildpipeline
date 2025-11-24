@@ -32,6 +32,6 @@ namespace UnityEditor.Build.Pipeline.Interfaces
         /// <summary>
         /// Map of asset to extended data about an asset.
         /// </summary>
-        Dictionary<GUID, ExtendedAssetData> ExtendedData { get; }
+        Dictionary<UnityEngine.GUID, ExtendedAssetData> ExtendedData { get; }
     }
 }

@@ -12,14 +12,14 @@ namespace UnityEditor.Build.Pipeline
     public class BuildSpriteData : IBuildSpriteData
     {
         /// <inheritdoc />
-        public Dictionary<GUID, SpriteImporterData> ImporterData { get; set; }
+        public Dictionary<UnityEngine.GUID, SpriteImporterData> ImporterData { get; set; }
 
         /// <summary>
         /// Default constructor, initializes properties to defaults
         /// </summary>
         public BuildSpriteData()
         {
-            ImporterData = new Dictionary<GUID, SpriteImporterData>();
+            ImporterData = new Dictionary<UnityEngine.GUID, SpriteImporterData>();
         }
     }
 }
